@@ -11,23 +11,23 @@ body {
   margin: 0;
 }
 
-.todo-container {
+.habbit-container {
   width: 500px;
 }
 
-.todo-container h1,
+.habbit-container h1,
 h2 {
   text-align: center;
 }
 
-.todo-container h2 {
+.habbit-container h2 {
   margin-top: 50px;
 }
 
-.todos-wrapper {
+.habbits-wrapper {
 }
 
-.add-todo-wrapper {
+.add-habbit-wrapper {
   display: flex;
   width: inherit;
   justify-content: center;
@@ -37,19 +37,19 @@ h2 {
   width: 80%;
 }
 
-#description-task {
+#description-habbit {
   width: 350px;
   height: 30px;
 }
 
-.todo-item {
+.habbit-card {
   background-color: #ed9ffd;
   border: 2px solid black;
   margin: 5px;
   padding: 5px;
 }
 
-.todo-item.checked {
+.habbit-card.checked {
   background-color: darkgray;
   opacity: 0.5;
 }
@@ -79,4 +79,35 @@ h2 {
 
 .btn-delete.hide {
   display: none;
+}
+
+.form-control label {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control input,
+.form-control textarea {
+  display: block;
+  width: 50%;
+  border: var(--border);
+  resize: none;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  background: #f7f7f7;
+  font-family: inherit;
+  transition: 0.22s background;
+  outline: none;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+  background: #fff;
+}
+
+.form-control input.invalid,
+.form-control textarea.invalid {
+  animation: validate 2s;
 }

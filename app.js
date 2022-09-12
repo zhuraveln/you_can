@@ -1,16 +1,61 @@
-// const deskTaskInput = document.querySelector('#description-task')
-// const addTaskBtn = document.querySelector('#add-task-btn')
-const todosWrapper = document.querySelector('.todos-wrapper')
+const habbitsCards = document.querySelector('.habbits-cards')
 
 const formForHabbit = document.querySelector('#form-for-habbit')
 
 formForHabbit.addEventListener('submit', addHabbit)
 
-let tasks = []
+const HB_KEY = 'habbits'
 
-!localStorage.tasks ? tasks = [] : tasks = JSON.parse(localStorage.getItem('tasks'))
+let habbits = getLocal()
 
-let toDoItemElem = []
+
+function toCard(habbit, index) {
+  return `
+        <div class="habbit-card ${habbit.completed ? 'checked' : ''}">
+            <div class="top">
+                <div class="description">${habbit.description}</div>
+                <div class="top-buttons">
+                    <input onclick="completehabbit(${index})" type="checkbox" 
+                    class="btn-complete" ${habbit.completed ? 'checked' : ''}>
+                    <button onclick="changehabbit(${index})" class="btn-change">Change</button>
+                </div>
+            </div>
+            <div class="bottom">
+                <p class="post-day">${habbit.date}</p>
+                <button onclick="deleteHabbit(${index})" class="btn-delete">Delete</button>
+            </div>
+        </div>`
+}
+
+// const filterhabbits = () => {
+//   const activehabbits =
+//     habbits.length && habbits.filter((item) => item.completed === false)
+//   const completedhabbits =
+//     habbits.length && habbits.filter((item) => item.completed === true)
+//   habbits = [...activehabbits, ...completedhabbits]
+// }
+
+function renderHtmlList() {
+  renderHabbitsCards()
+  // renderHabbitsProgress()
+}
+
+function renderHabbitsCards() {
+  if (habbits.length === 0) {
+    habbitsCards.innerHTML = `<p>You have not tracked habbit, add</p>`
+  } else {
+    let html = ''
+    // filterhabbits()
+
+    habbits.forEach((item, index) => {
+      html += toCard(item, index)
+    })
+    habbitsCards.innerHTML = html
+    // habbits = document.querySelectorAll('.habbit-card')
+  }
+}
+
+// renderHabbitsProgress()
 
 function Habbit(description) {
   this.description = description
@@ -44,58 +89,8 @@ function getDate(t = new Date()) {
   return `${D}.${M}.${Y} ${h}:${m} (${d})`
 }
 
-const createTemplate = (task, index) => {
-  return `
-        <div class="todo-item ${task.completed ? 'checked' : ''}">
-            <div class="top">
-                <div class="description">${task.description}</div>
-                <div class="top-buttons">
-                    <input onclick="completeTask(${index})" type="checkbox" 
-                    class="btn-complete" ${task.completed ? 'checked' : ''}>
-                    <button onclick="changeTask(${index})" class="btn-change">Change</button>
-                </div>
-            </div>
-            <div class="bottom">
-                <p class="post-day">${task.date}</p>
-                <button onclick="deleteTask(${index})" class="btn-delete">Delete</button>
-            </div>
-        </div>`
-}
-
-const filterTasks = () => {
-  const activeTasks =
-    tasks.length && tasks.filter((item) => item.completed === false)
-  const completedTasks =
-    tasks.length && tasks.filter((item) => item.completed === true)
-  tasks = [...activeTasks, ...completedTasks]
-}
-
-const fillHtmlList = () => {
-  todosWrapper.innerHTML = ''
-  if (tasks.length > 0) {
-    filterTasks()
-    tasks.forEach((item, index) => {
-      todosWrapper.innerHTML += createTemplate(item, index)
-    })
-    toDoItemElem = document.querySelectorAll('.todo-item')
-  }
-}
-
-fillHtmlList()
-
-const updateLocal = () => {
-  localStorage.setItem('tasks', JSON.stringify(tasks))
-}
-
-const completeTask = (index) => {
-  tasks[index].completed = !tasks[index].completed
-  if (tasks[index].completed) {
-    toDoItemElem[index].classList.add('checked')
-  } else {
-    toDoItemElem[index].classList.remove('checked')
-  }
-  updateLocal()
-  fillHtmlList()
+function isInvalid(title) {
+  return !title.value
 }
 
 function addHabbit(event) {
@@ -103,57 +98,72 @@ function addHabbit(event) {
 
   const {title} = event.target
 
-  tasks.push(new Habbit(title.value))
+  if (isInvalid(title)) {
+    if (!title.value) title.classList.add('invalid')
+
+    setTimeout(() => {
+      title.classList.remove('invalid')
+    }, 2000)
+
+    return
+  }
+
+  habbits.push(new Habbit(title.value))
 
   title.value = ''
-  updateLocal()
-  fillHtmlList()
+  saveLocal()
+  renderHtmlList()
 }
 
-// function addTask() {
-//   tasks.push(new Task(deskTaskInput.value))
-//   updateLocal()
-//   fillHtmlList()
-//   deskTaskInput.value = ''
-// }
+function completehabbit(index) {
+  habbits[index].completed = !habbits[index].completed
+  if (habbits[index].completed) {
+    habbits[index].classList.add('checked')
+  } else {
+    habbits[index].classList.remove('checked')
+  }
+  saveLocal()
+  renderHtmlList()
+}
 
-// addTaskBtn.addEventListener('click', () => {
-//   addTask()
-// })
-
-// deskTaskInput.addEventListener('keydown', (event) => {
-//   if (event.key === 'Enter') {
-//     addTask()
-//   }
-// })
-
-function changeTask(index) {
+function changehabbit(index) {
   if (
-    toDoItemElem[index].children[1].children[1].classList.value ===
+    habbits[index].children[1].children[1].classList.value ===
     'btn-delete hide'
   ) {
-    toDoItemElem[index].children[1].children[1].classList.remove('hide')
-    toDoItemElem[index].children[0].children[1].children[1].classList.add(
+    habbits[index].children[1].children[1].classList.remove('hide')
+    habbits[index].children[0].children[1].children[1].classList.add(
       'clicked'
     )
   } else {
-    toDoItemElem[index].children[1].children[1].classList.add('hide')
-    toDoItemElem[index].children[0].children[1].children[1].classList.remove(
+    habbits[index].children[1].children[1].classList.add('hide')
+    habbits[index].children[0].children[1].children[1].classList.remove(
       'clicked'
     )
   }
 }
 
-const deleteTask = (index) => {
-  // toDoItemElems[index].classList.add('delition')
+function deleteHabbit(index) {
+  // habbitss[index].classList.add('delition')
 
   // setTimeout(() => {
-  //     tasks.splice(index, 1)
-  //     updateLocal()
-  //     fillHtmlList()
+  //     habbits.splice(index, 1)
+  //     saveLocal()
+  //     renderHtmlList()
   // }, 500)
 
-  tasks.splice(index, 1)
-  updateLocal()
-  fillHtmlList()
+  habbits.splice(index, 1)
+  saveLocal()
+  renderHtmlList()
 }
+
+function saveLocal () {
+  localStorage.setItem(HB_KEY, JSON.stringify(habbits))
+}
+
+function getLocal () {
+  const raw = localStorage.getItem(HB_KEY)
+  return raw ? JSON.parse(raw) : []
+}
+
+renderHtmlList()
