@@ -54,11 +54,6 @@ body {
   border: var(--border);
 }
 
-/* .habbit-card.checked {
-  background-color: darkgray;
-  opacity: 0.5;
-} */
-
 .habbit-card:hover {
   cursor: pointer;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.22);
@@ -106,36 +101,41 @@ body {
   transition: 0.5s width;
 }
 
+.habbit-type {
+  position: absolute;
+  top: -2.5rem;
+}
+
 .description {
   width: 80%;
-}
-
-.btn-change.clicked {
-  background-color: grey;
-}
-
-.btn-delete.hide {
-  display: none;
 }
 
 .form {
   margin-bottom: 1rem;
 }
 
-.form-control label {
+.form-control {
+  display: flex;
+}
+
+.form-control select {
+  height: 2.6rem;
+}
+
+/* .form-control label {
   font-size: 18px;
   display: block;
   margin-bottom: 0.5rem;
-}
+} */
 
-.form-control input,
-.form-control textarea {
+.form-control input {
   display: block;
   width: 50%;
   border: var(--border);
   resize: none;
   padding: 0.75rem;
   margin-bottom: 1rem;
+  margin-right: 0.5rem;
   border-radius: var(--radius);
   background: #f7f7f7;
   font-family: inherit;
@@ -143,13 +143,11 @@ body {
   outline: none;
 }
 
-.form-control input:focus,
-.form-control textarea:focus {
+.form-control input:focus {
   background: #fff;
 }
 
-.form-control input.invalid,
-.form-control textarea.invalid {
+.form-control input.invalid {
   animation: validate 2s;
 }
 
@@ -167,7 +165,7 @@ body {
   }
 }
 
-.btn {
+.btn, .btn-day-done {
   font-family: inherit;
   padding: 0.7rem 2rem;
   border: 1px solid #ccc;
@@ -185,16 +183,71 @@ body {
   transition: 0.3s background;
 }
 
-.btn:focus, .btn-delete {
+.btn:focus,
+.btn-delete:focus, 
+.btn-day-done:focus {
   outline: none;
 }
 
-.btn:hover, .btn-delete {
+.btn:hover, 
+.btn-delete:hover, 
+.btn-day-done:hover {
   background: #fff;
   cursor: pointer;
+}
+
+.btn-day-done.hide {
+  display: none;
 }
 
 .empty {
   margin-bottom: 2rem;
   color: grey;
+}
+
+.habbit-modal {
+  display: none;
+}
+
+.habbit-modal.open {
+  display: block;
+  position: fixed;
+  top: 50px;
+  transform: translateX(-50%);
+  left: 50%;
+  width: 500px;
+  background: #fff;
+  z-index: 200;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+}
+
+.habbit-modal h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.habbit-modal p {
+  margin-bottom: 1rem;
+}
+
+.habbit-modal hr {
+  margin-bottom: 1rem;
+  border: none;
+  height: 2px;
+  background: var(--border-color);
+}
+
+.habbit-modal.open + .modal-backdrop {
+  display: block;
+}
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
 }

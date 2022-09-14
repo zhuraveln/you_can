@@ -1,26 +1,55 @@
 const habbitsCards = document.querySelector('#habbits-cards')
+const habbitModal = document.querySelector('#habbit-modal')
+const backdrop = document.querySelector('#backdrop')
+
+habbitsCards.addEventListener('click', targetHabbitCard)
+backdrop.addEventListener('click', closeModal)
 
 const formForHabbit = document.querySelector('#form-for-habbit')
 
 formForHabbit.addEventListener('submit', addHabbit)
 
-const HB_KEY = 'habbits'
+const APP_TITLE = document.title
+const LS_KEY = 'habbits'
 
 let habbits = getLocal()
 
 
+function targetHabbitCard(event) {
+  const data = event.target.dataset.id
+  const habbit = habbits[data]
+
+  if(!habbit) return
+
+  openModal(toModal(habbit), habbit.description)
+}
+
+function openModal(html, title = APP_TITLE) {
+  document.title = `${title} | ${APP_TITLE}`
+  habbitModal.innerHTML = html
+  habbitModal.classList.add('open')
+}
+
+function closeModal(event) {
+  document.title = APP_TITLE
+  habbitModal.classList.remove('open')
+}
+
+function toModal(habbit) {
+  return `
+    <h2>${habbit.description}</h2>
+    <p>${habbit.type}</p>
+    <hr>
+  `
+}
+
 function toCard(habbit, index) {
   return `
-    <div class="habbit-card ${habbit.completed ? 'checked' : ''}">
+    <div class="habbit-card" data-id="${index}">
       <div class="card">
         <div class="top">
           <div class="description">${habbit.description}</div>
-          <div class="top-buttons">
-            <!-- <input onclick="completehabbit(${index})" type="checkbox" 
-            class="btn-complete" ${habbit.completed ? 'checked' : ''}>
-            <button class="btn" onclick="changehabbit(${index})" class="btn-change">Change</button> -->
-            <button class="btn" onclick="doneHabbit(${index})">Done</button>
-          </div>
+          <button class="btn-day-done ${habbit.progress >= 21 ? 'hide' : ''}" onclick="DayDoneHabbit(${index})">Done</button>
         </div>
         <div class="bottom">
           <p class="post-day">${habbit.date}</p>
@@ -28,6 +57,7 @@ function toCard(habbit, index) {
         </div>
       </div>
       <div class="progress-bar">
+        <div class="habbit-type">${habbit.type}</div>
         <div class="progress-value"></div>
       </div>
     </div>
@@ -51,7 +81,6 @@ function renderHabbitsCards() {
     habbitsCards.innerHTML = `<p class="empty">You have not tracked habbit, add</p>`
   } else {
     let html = ''
-    // filterhabbits()
 
     habbits.forEach((item, index) => {
       html += toCard(item, index)
@@ -64,14 +93,20 @@ function renderHabbitsCards() {
 function renderHabbitsProgress() {
   const progressValue = document.querySelectorAll('.progress-value')
   progressValue.forEach((item, index) => {
-    item.style.width = habbits[index].progress + '0%'
+    item.style.width = habbits[index].progress * 4.7619047619 + "%"
+
+    if(habbits[index].progress === 0) {
+      return
+    } else {
+      item.textContent = habbits[index].progress + ' d'
+    }
   })
 }
 
-function Habbit(description) {
+function Habbit(description, type) {
   this.description = description
+  this.type = type
   this.progress = 0
-  this.completed = false
   this.date = getDate()
 }
 
@@ -108,7 +143,7 @@ function isInvalid(title) {
 function addHabbit(event) {
   event.preventDefault()
 
-  const {title} = event.target
+  const {title, type} = event.target
 
   if (isInvalid(title)) {
     if (!title.value) title.classList.add('invalid')
@@ -120,67 +155,32 @@ function addHabbit(event) {
     return
   }
 
-  habbits.push(new Habbit(title.value))
+  habbits.push(new Habbit(title.value, type.value))
 
   title.value = ''
   saveLocal()
   renderHtmlList()
 }
 
-function doneHabbit(index) {
+function DayDoneHabbit(index) {
   habbits[index].progress++
+
   saveLocal()
   renderHtmlList()
 }
 
-// function completehabbit(index) {
-//   habbits[index].completed = !habbits[index].completed
-//   if (habbits[index].completed) {
-//     habbits[index].classList.add('checked')
-//   } else {
-//     habbits[index].classList.remove('checked')
-//   }
-//   saveLocal()
-//   renderHtmlList()
-// }
-
-// function changehabbit(index) {
-//   if (
-//     habbits[index].children[1].children[1].classList.value ===
-//     'btn-delete hide'
-//   ) {
-//     habbits[index].children[1].children[1].classList.remove('hide')
-//     habbits[index].children[0].children[1].children[1].classList.add(
-//       'clicked'
-//     )
-//   } else {
-//     habbits[index].children[1].children[1].classList.add('hide')
-//     habbits[index].children[0].children[1].children[1].classList.remove(
-//       'clicked'
-//     )
-//   }
-// }
-
 function deleteHabbit(index) {
-  // habbitss[index].classList.add('delition')
-
-  // setTimeout(() => {
-  //     habbits.splice(index, 1)
-  //     saveLocal()
-  //     renderHtmlList()
-  // }, 500)
-
   habbits.splice(index, 1)
   saveLocal()
   renderHtmlList()
 }
 
 function saveLocal () {
-  localStorage.setItem(HB_KEY, JSON.stringify(habbits))
+  localStorage.setItem(LS_KEY, JSON.stringify(habbits))
 }
 
 function getLocal () {
-  const raw = localStorage.getItem(HB_KEY)
+  const raw = localStorage.getItem(LS_KEY)
   return raw ? JSON.parse(raw) : []
 }
 
