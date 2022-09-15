@@ -23,7 +23,7 @@
             name="title"
             placeholder="Input title"
           >
-          <select name="type" id="type">
+          <select class="btn type" name="type" id="type">
             <option value="Health">Health</option>
             <option value="Sport">Sport</option>
             <option value="Skills">Skills</option>
@@ -34,11 +34,17 @@
         <button type="submit" class="btn">Create</button>
       </form>
 
+      <select class="btn sort" name="sort" id="sort">
+        <option value="date">Date</option>
+        <option value="type">Type</option>
+        <option value="progress">Progress</option>
+      </select>
+
       <div class="habbits-cards" id="habbits-cards"></div>
     </div>
 
     <div class="habbit-modal" id="habbit-modal"></div>
-    <div class="modal-backdrop" id="backdrop"></div>
+    <div class="modal-backdrop" id="modal-backdrop"></div>
 
     <script src="app.js"></script>
   </body>
