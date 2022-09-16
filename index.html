@@ -32,8 +32,10 @@
           </select>
         </div>
         <button type="submit" class="btn">Create</button>
+        <button type="button" class="btn">Random</button>
       </form>
 
+      <label for="select">Sort: </label>
       <select class="btn sort" name="sort" id="sort">
         <option value="date">Date</option>
         <option value="type">Type</option>
@@ -44,6 +46,27 @@
     </div>
 
     <div class="habbit-modal" id="habbit-modal"></div>
+
+    <div class="habbit-modal edit " id="habbit-modal-edit">
+      <form class="form" id="form-for-edit">
+        <div class="form-control">
+          <input
+            type="text"
+            id="title"
+            name="title"
+          >
+          <select class="btn type" name="type" id="type">
+            <option value="Health">Health</option>
+            <option value="Sport">Sport</option>
+            <option value="Skills">Skills</option>
+            <option value="Hobby">Hobby</option>
+            <option value="Mind">Mind</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Edit</button>
+      </form>
+    </div>
+
     <div class="modal-backdrop" id="modal-backdrop"></div>
 
     <script src="app.js"></script>

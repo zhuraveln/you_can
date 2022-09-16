@@ -2,6 +2,7 @@ const habbitsCards = document.querySelector('#habbits-cards')
 const habbitModal = document.querySelector('#habbit-modal')
 const backdrop = document.querySelector('#modal-backdrop')
 const sortSelector = document.querySelector('#sort')
+const editModal = document.querySelector('#habbit-modal-edit')
 
 habbitsCards.addEventListener('click', clickHabbitCard)
 backdrop.addEventListener('click', closeModal)
@@ -9,7 +10,11 @@ backdrop.addEventListener('click', closeModal)
 sortSelector.addEventListener('change', sorthabbits)
 
 const formForHabbit = document.querySelector('#form-for-habbit')
+const formForEdit = document.querySelector('#form-for-edit')
+
 formForHabbit.addEventListener('submit', addHabbit)
+formForHabbit[3].addEventListener('click', randromHabbit)
+formForEdit.addEventListener('submit', editHabbit)
 
 const APP_TITLE = document.title
 const LS_KEY = 'habbits'
@@ -54,12 +59,13 @@ function toCard(habbit, index) {
     <div class="habbit-card" data-id="${index}">
       <div class="card">
         <div class="top">
-          <div class="description">${habbit.description}</div>
-          <button class="btn ${habbit.progress >= 21 ? 'hide' : ''}" onclick="DayDoneHabbit(${index})">Done</button>
+          <div class="description">${habbit.title}</div>
+          <button class="btn done ${habbit.progress >= 21 ? 'hide' : ''}" onclick="DayDoneHabbit(${index})">Done</button>
         </div>
         <div class="bottom">
-          <p class="post-day">${habbit.date}</p>
-          <button class="btn" onclick="deleteHabbit(${index})">Delete</button>
+          <div class="post-day">${habbit.date}</div>
+          <button class="btn edit" onclick="openEditModal(${index})">Edit</button>
+          <button class="btn delete" onclick="deleteHabbit(${index})">Delete</button>
         </div>
       </div>
       <div class="progress-bar">
@@ -77,13 +83,16 @@ function clickHabbitCard(event) {
 
   if(!habbit) return
 
-  openModal(toModal(habbit), habbit.description)
+  openModal(toModal(habbit), habbit.title)
   renderModalHabbitProgress(itemId)
 }
 
 function findId(item) {
-  const itemId = item.dataset.id
+  if (item.localName === "button") {
+    return
+  }
 
+  const itemId = item.dataset.id
   return (itemId) ? itemId : findId(item.parentElement)
 }
 
@@ -91,11 +100,12 @@ function openModal(html, title = APP_TITLE) {
   document.title = `${title} | ${APP_TITLE}`
   habbitModal.innerHTML = html
   habbitModal.classList.add('open')
+  backdrop.style.display = 'block'
 }
 
 function toModal(habbit) {
   return `
-    <h2>${habbit.description}</h2>
+    <h2>${habbit.title}</h2>
     <p>Type: ${habbit.type}</p>
     <hr>
     <div class="progress-bar modal">
@@ -117,7 +127,10 @@ function renderModalHabbitProgress(index) {
 
 function closeModal(event) {
   document.title = APP_TITLE
+
+  backdrop.style.display = 'none'
   habbitModal.classList.remove('open')
+  editModal.classList.remove('open') 
 }
 
 function addHabbit(event) {
@@ -138,6 +151,7 @@ function addHabbit(event) {
   habbits.push(new Habbit(title.value, type.value))
 
   title.value = ''
+  sorthabbits()
   saveLocal()
   renderHtmlList()
 }
@@ -146,8 +160,8 @@ function isInvalid(title) {
   return !title.value
 }
 
-function Habbit(description, type) {
-  this.description = description
+function Habbit(title, type) {
+  this.title = title
   this.type = type
   this.progress = 0
   this.date = getDate()
@@ -182,12 +196,14 @@ function getDate(t = new Date()) {
 function DayDoneHabbit(index) {
   habbits[index].progress++
 
+  sorthabbits()
   saveLocal()
   renderHtmlList()
 }
 
 function deleteHabbit(index) {
   habbits.splice(index, 1)
+
   saveLocal()
   renderHtmlList()
 }
@@ -202,7 +218,6 @@ function getLocal () {
 }
 
 function sorthabbits() {
-  console.log('changed')
   const sortType = sortSelector.value
   const collatore = new Intl.Collator()
 
@@ -213,15 +228,66 @@ function sorthabbits() {
   } else if (sortType === 'date') {
     habbits.sort((a, b) => collatore.compare(a.date, b.date))
   }
-  // habbits.sort((a, b) => {
-  //   // console.log(sortType)
-  //   // console.log(`change to ${sort.value}`)
-  //   // return (a.sortType) - (b.sortType)
-  //   return a.progress - b.progress
-  // })
 
-  // console.log('alert!')
-  // console.log(habbits)
   saveLocal()
   renderHtmlList()
+}
+
+function openEditModal(index) {
+  document.title = `${habbits[index].title} | ${APP_TITLE}`
+  habbitIndexEdit = index
+
+  formForEdit[0].value = habbits[index].title
+  formForEdit[1].value = habbits[index].type
+  
+  editModal.classList.add('open')
+  backdrop.style.display = 'block'
+}
+
+let habbitIndexEdit
+
+function editHabbit(event) {
+  event.preventDefault()
+
+  const {title, type} = event.target
+
+  if (isInvalid(title)) {
+    if (!title.value) title.classList.add('invalid')
+
+    setTimeout(() => {
+      title.classList.remove('invalid')
+    }, 2000)
+
+    return
+  }
+
+  habbits[habbitIndexEdit].title = title.value
+  habbits[habbitIndexEdit].type = type.value
+
+  closeModal()
+
+  sorthabbits()
+  saveLocal()
+  renderHtmlList()
+}
+
+const randomHabbits = [
+  {title: 'Плавать в ванной', type: 'Sport'},
+  {title: 'Закаляться в морозилке', type: 'Health'},
+  {title: 'Говорить задом наперед', type: 'Skills'},
+  {title: 'Разводить мух', type: 'Hobby'},
+  {title: 'Наладить связь с космосом', type: 'Mind'},
+]
+
+function randromHabbit() {
+  const randromHabbit = getRandom(randomHabbits)
+
+  formForHabbit[0].value = randromHabbit.title
+  formForHabbit[1].value = randromHabbit.type
+}
+
+function getRandom(arr) {
+  const randomNumber = Math.floor(Math.random() * arr.length)
+
+  return arr[randomNumber]
 }
