@@ -13,7 +13,7 @@ const formForHabbit = document.querySelector('#form-for-habbit')
 const formForEdit = document.querySelector('#form-for-edit')
 
 formForHabbit.addEventListener('submit', addHabbit)
-formForHabbit[3].addEventListener('click', randromHabbit)
+formForHabbit[2].addEventListener('click', randromHabbit)
 formForEdit.addEventListener('submit', editHabbit)
 
 const APP_TITLE = document.title
@@ -57,20 +57,19 @@ function renderHabbitsProgress() {
 function toCard(habbit, index) {
   return `
     <div class="habbit-card" data-id="${index}">
-      <div class="card">
-        <div class="top">
+      <div class="top-card">
+          <div class="habbit-type">${habbit.type}</div>
           <div class="description">${habbit.title}</div>
-          <button class="btn done ${habbit.progress >= 21 ? 'hide' : ''}" onclick="DayDoneHabbit(${index})">Done</button>
-        </div>
-        <div class="bottom">
-          <div class="post-day">${habbit.date}</div>
-          <button class="btn edit" onclick="openEditModal(${index})">Edit</button>
           <button class="btn delete" onclick="deleteHabbit(${index})">Delete</button>
-        </div>
+          <button class="btn edit" onclick="openEditModal(${index})">Edit</button>
+          <div class="post-day">${habbit.date}</div>
       </div>
-      <div class="progress-bar">
-        <div class="habbit-type">${habbit.type}</div>
-        <div class="progress-value"></div>
+      <div class="bottom-card">
+        <button class="btn done ${habbit.progress >= 21 ? 'hide' : ''}"
+        onclick="DayDoneHabbit(${index})">Done</button>
+        <div class="progress-bar">
+          <div class="progress-value"></div>
+        </div>
       </div>
     </div>
   `
@@ -83,8 +82,17 @@ function clickHabbitCard(event) {
 
   if(!habbit) return
 
-  openModal(toModal(habbit), habbit.title)
-  renderModalHabbitProgress(itemId)
+  if (habbitsCards.children[itemId].className === 'habbit-card') {
+    habbitsCards.children[itemId].classList.add('open')
+    habbitsCards.children[itemId].style.height = '155px'
+  } else {
+    habbitsCards.children[itemId].classList.remove('open')
+    habbitsCards.children[itemId].style.height = '120px'
+  }
+  
+
+  // openModal(toModal(habbit), habbit.title)
+  // renderModalHabbitProgress(itemId)
 }
 
 function findId(item) {
@@ -96,40 +104,40 @@ function findId(item) {
   return (itemId) ? itemId : findId(item.parentElement)
 }
 
-function openModal(html, title = APP_TITLE) {
-  document.title = `${title} | ${APP_TITLE}`
-  habbitModal.innerHTML = html
-  habbitModal.classList.add('open')
-  backdrop.style.display = 'block'
-}
+// function openModal(html, title = APP_TITLE) {
+//   document.title = `${title} | ${APP_TITLE}`
+//   habbitModal.innerHTML = html
+//   habbitModal.classList.add('open')
+//   backdrop.style.display = 'block'
+// }
 
-function toModal(habbit) {
-  return `
-    <h2>${habbit.title}</h2>
-    <p>Type: ${habbit.type}</p>
-    <hr>
-    <div class="progress-bar modal">
-        <div class="progress-value modal" id="progress-value-modal"></div>
-    </div>
-  `
-}
+// function toModal(habbit) {
+//   return `
+//     <h2>${habbit.title}</h2>
+//     <p>Type: ${habbit.type}</p>
+//     <hr>
+//     <div class="progress-bar modal">
+//         <div class="progress-value modal" id="progress-value-modal"></div>
+//     </div>
+//   `
+// }
 
-function renderModalHabbitProgress(index) {
-  const progressModalValue = document.querySelector('#progress-value-modal')
-  progressModalValue.style.width = habbits[index].progress * 4.7619047619 + "%"
+// function renderModalHabbitProgress(index) {
+//   const progressModalValue = document.querySelector('#progress-value-modal')
+//   progressModalValue.style.width = habbits[index].progress * 4.7619047619 + "%"
 
-  if(habbits[index].progress === 0) {
-    return
-  } else {
-    progressModalValue.textContent = habbits[index].progress + ' d'
-  }
-}
+//   if(habbits[index].progress === 0) {
+//     return
+//   } else {
+//     progressModalValue.textContent = habbits[index].progress + ' d'
+//   }
+// }
 
 function closeModal(event) {
   document.title = APP_TITLE
 
   backdrop.style.display = 'none'
-  habbitModal.classList.remove('open')
+  // habbitModal.classList.remove('open')
   editModal.classList.remove('open') 
 }
 
@@ -226,7 +234,7 @@ function sorthabbits() {
   } else if (sortType === 'type') {
     habbits.sort((a, b) => collatore.compare(a.type, b.type))
   } else if (sortType === 'date') {
-    habbits.sort((a, b) => collatore.compare(a.date, b.date))
+    habbits.sort((a, b) => collatore.compare(b.date, a.date))
   }
 
   saveLocal()

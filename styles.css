@@ -13,38 +13,131 @@
   padding: 0;
 }
 
-body {
+body, html {
   font-family: 'Roboto', sans-serif;
   background: #dedede77;
 }
 
 .container {
-  max-width: 950px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  height: 10%;
+  align-items: center;
+  background: rgb(109, 189, 255);
+  margin-bottom: 1rem;
 }
 
 .heading {
-  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+}
+
+.main {
+  display: flex;
+  align-self: center;
+  height: 90%;
+  width: 65%;
+}
+
+.left {
+  width: 35%;
+}
+
+.form-for-habbit {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+}
+
+.input-area {
+  display: flex;
+  margin-bottom: 0.2rem;
+}
+
+.form-control {
+  width: 100%;
+  border: var(--border);
+  padding: 0.75rem;
+  margin-right: 0.1rem;
+  border-radius: var(--radius);
+  background: #f7f7f7;
+  font-family: inherit;
+  transition: 0.22s background;
+  outline: none;
+}
+
+.form-control:focus {
+  background: #fff;
+}
+
+.form-control.invalid {
+  animation: validate 2s;
+}
+
+@keyframes validate {
+  0% {
+    border: 1px solid var(--red);
+  }
+
+  50% {
+    border: 1px solid var(--red);
+  }
+
+  100% {
+    border: var(--border);
+  }
+}
+
+.right {
+  width: 65%;
+  height: 100vh;
+}
+
+.heading.card {
+  display: flex;
+  justify-content: space-between;
+  height: 2.3rem;
+  padding: 0;
+}
+
+.heading.form {
+  height: 2.3rem;
+  padding-left: 1rem;
 }
 
 .habbits-cards {
-  display: block;
-  margin-right: -1rem;
+  height: 100vh;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .habbit-card {
-  /* width: 600px; */
+  height: 120px;
   margin-bottom: 1rem;
+  margin-right: 0.5rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
   padding: 1rem;
   background: #fff;
   transition: 0.4s box-shadow;
   background: #fff;
   border-radius: var(--radius);
   border: var(--border);
+  transition: 0.5s height;
+}
+
+.habbit-card.open + .post-day {
+  display: block;
+}
+
+.post-day {
+  display: none;
 }
 
 .habbit-card:hover {
@@ -52,36 +145,22 @@ body {
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.22);
 }
 
-.top {
+.top-card {
   display: flex;
   justify-content: space-between;
-  margin: 4px 0;
+  height: 60%;
+  margin-bottom: 0.5rem;
 }
 
-.bottom {
+.bottom-card {
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* text-align: center; */
-}
-
-.post-day {
-  width: 60%;
-}
-
-.bottom p {
-  margin: 5px 5px 5px 0px;
-}
-
-.card {
-  width: 40%;
-  margin-right: 0.5rem;
+  height: 33px;
 }
 
 .progress-bar {
+  display: flex;
   position: relative;
-  width: 60%;
-  height: 30px;
+  flex: 10;
   border: var(--border);
   border-radius: var(--radius);
 }
@@ -105,96 +184,50 @@ body {
 }
 
 .habbit-type {
-  position: absolute;
-  top: -2.5rem;
+  color: grey;
+  width: 4.1rem;
 }
 
 .description {
   width: 70%;
-}
-
-.form {
-  margin-bottom: 1rem;
-}
-
-.form-control {
-  display: flex;
-}
-
-.form-control select {
-  height: 2.6rem;
-}
-
-/* .form-control label {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 0.5rem;
-} */
-
-.form-control input {
-  display: block;
-  width: 50%;
-  border: var(--border);
-  resize: none;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  margin-right: 0.5rem;
-  border-radius: var(--radius);
-  background: #f7f7f7;
-  font-family: inherit;
-  transition: 0.22s background;
-  outline: none;
-}
-
-.form-control input:focus {
-  background: #fff;
-}
-
-.form-control input.invalid {
-  animation: validate 2s;
-}
-
-@keyframes validate {
-  0% {
-    border: 1px solid var(--red);
-  }
-
-  50% {
-    border: 1px solid var(--red);
-  }
-
-  100% {
-    border: var(--border);
-  }
+  overflow: scroll;
 }
 
 .btn {
   font-family: inherit;
-  padding: 0.7rem 2rem;
   border: 1px solid #ccc;
   background: #f7f7f7;
   border-radius: var(--radius);
   transition: 0.3s background;
+  justify-content: center;
   text-align: center;
 }
 
+.btn.create {
+  padding: 1rem 0;
+}
+
+.btn.random {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+
 .btn.edit {
-  /* text-align: center; */
   width: 20%;
-  padding: 0.5rem 0rem;
-  margin-right: 0.15rem;
+  height: 33px;
 }
 
 .btn.done {
-  width: 30%;
-  padding: 0.5rem 0rem;
-  /* text-align: center; */
+  height: 33px;
+  flex: 1;
+  margin-right: 0.2rem;
 }
 
 .btn.delete {
-  /* text-align: center; */
-  width: 20%;
+  width: 10%;
+  height: 33px;
   padding: 0;
+  margin-right: 0.1rem;
 }
 
 .btn.type {
@@ -202,8 +235,8 @@ body {
 }
 
 .btn.sort {
-  padding: 0.4rem 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.4rem;
+  margin: 0 0.5rem 0.3rem 0;
 }
 
 .btn:focus {
