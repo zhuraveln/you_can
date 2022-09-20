@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>Trash habbits maker</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Trash habbits maker</h1>
+    <form class="form" id="form">
+      <input type="text" class="input" name="title" placeholder="Input trash title">
+      <select class="btn" name="type">
+        <option value="Health">Health</option>
+        <option value="Sport">Sport</option>
+        <option value="Skills">Skills</option>
+        <option value="Hobby">Hobby</option>
+        <option value="Mind">Mind</option>
+      </select>
+      <button type="submit" class="btn">Create</button>
+    </form>
+
+    <div class="habbits cards" id="habbits-cards"></div>
+    <script src="app.js"></script>
+  </div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 const habbitsCards = document.querySelector('#habbits-cards')
-const habbitModal = document.querySelector('#habbit-modal')
+// const habbitModal = document.querySelector('#habbit-modal')
 const backdrop = document.querySelector('#modal-backdrop')
 const sortSelector = document.querySelector('#sort')
 const editModal = document.querySelector('#habbit-modal-edit')
@@ -60,9 +60,8 @@ function toCard(habbit, index) {
       <div class="top-card">
           <div class="habbit-type">${habbit.type}</div>
           <div class="description">${habbit.title}</div>
-          <button class="btn delete" onclick="deleteHabbit(${index})">Delete</button>
           <button class="btn edit" onclick="openEditModal(${index})">Edit</button>
-          <div class="post-day">${habbit.date}</div>
+          <div class="post-day"><strong>Create date: </strong>${habbit.date}</div>
       </div>
       <div class="bottom-card">
         <button class="btn done ${habbit.progress >= 21 ? 'hide' : ''}"
@@ -78,16 +77,16 @@ function toCard(habbit, index) {
 function clickHabbitCard(event) {
   const item = event.target
   const itemId = findId(item)
-  const habbit = habbits[itemId]
+  const habbit = habbitsCards.children[itemId]
 
   if(!habbit) return
 
-  if (habbitsCards.children[itemId].className === 'habbit-card') {
-    habbitsCards.children[itemId].classList.add('open')
-    habbitsCards.children[itemId].style.height = '155px'
+  if (habbit.children[0].className === 'top-card') {
+    habbit.children[0].classList.add('open')
+    habbit.style.height = '155px'
   } else {
-    habbitsCards.children[itemId].classList.remove('open')
-    habbitsCards.children[itemId].style.height = '120px'
+    habbit.children[0].classList.remove('open')
+    habbit.style.height = '120px'
   }
   
 
@@ -253,6 +252,12 @@ function openEditModal(index) {
 }
 
 let habbitIndexEdit
+
+const delBtn = document.querySelector('#btn-edit-del')
+delBtn.addEventListener('click', () => {
+  closeModal()
+  deleteHabbit(habbitIndexEdit)
+})
 
 function editHabbit(event) {
   event.preventDefault()

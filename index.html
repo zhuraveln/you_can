@@ -54,14 +54,10 @@
       <div class="habbit-modal" id="habbit-modal"></div>
 
       <div class="habbit-modal edit " id="habbit-modal-edit">
+        <h2>Edit habbit:</h2>
         <form class="form" id="form-for-edit">
-          <div class="form-control">
-            <input
-              class="form-control"
-              type="text"
-              id="title"
-              name="title"
-            >
+          <div class="input-area">
+            <input type="text" class="form-control" id="title" name="title">
             <select class="btn type" name="type" id="type">
               <option value="Health">Health</option>
               <option value="Sport">Sport</option>
@@ -70,7 +66,8 @@
               <option value="Mind">Mind</option>
             </select>
           </div>
-          <button type="submit" class="btn">Edit</button>
+          <button type="submit" class="btn edit">Edit</button>
+          <button type="button" class="btn edit" id="btn-edit-del">Delete</button>
         </form>
       </div>
 

@@ -111,7 +111,7 @@ body, html {
 }
 
 .habbits-cards {
-  height: 100vh;
+  height: 85%;
   overflow: scroll;
   scrollbar-width: none;
 }
@@ -132,12 +132,14 @@ body, html {
   transition: 0.5s height;
 }
 
-.habbit-card.open + .post-day {
+.top-card.open > .post-day {
   display: block;
 }
 
 .post-day {
   display: none;
+  color: grey;
+
 }
 
 .habbit-card:hover {
@@ -147,9 +149,8 @@ body, html {
 
 .top-card {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   height: 60%;
-  margin-bottom: 0.5rem;
 }
 
 .bottom-card {
@@ -185,11 +186,11 @@ body, html {
 
 .habbit-type {
   color: grey;
-  width: 4.1rem;
+  width: 10.5%;
 }
 
 .description {
-  width: 70%;
+  width: 74%;
   overflow: scroll;
 }
 
@@ -213,7 +214,7 @@ body, html {
 }
 
 .btn.edit {
-  width: 20%;
+  width: 15%;
   height: 33px;
 }
 
@@ -224,9 +225,8 @@ body, html {
 }
 
 .btn.delete {
-  width: 10%;
+  width: 13%;
   height: 33px;
-  padding: 0;
   margin-right: 0.1rem;
 }
 
@@ -261,7 +261,7 @@ body, html {
   display: none;
 }
 
-.habbit-modal.open {
+/* .habbit-modal.open {
   display: block;
   position: fixed;
   top: 50px;
@@ -272,22 +272,23 @@ body, html {
   z-index: 200;
   padding: 1.5rem;
   border-radius: var(--radius);
-}
+} */
 
 .habbit-modal h2 {
-  text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
 }
 
-.habbit-modal p {
-  margin-bottom: 1rem;
-}
-
-.habbit-modal hr {
-  margin-bottom: 1rem;
-  border: none;
-  height: 2px;
-  background: var(--border-color);
+.habbit-modal.edit.open {
+  display: block;
+  position: fixed;
+  top: 125px;
+  transform: translateX(-50%);
+  left: 50%;
+  width: 500px;
+  background: #fff;
+  z-index: 200;
+  padding: 1.5rem;
+  border-radius: var(--radius);
 }
 
 .modal-backdrop {
@@ -298,17 +299,4 @@ body, html {
   left: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-}
-
-.habbit-modal.edit.open {
-  display: block;
-  position: fixed;
-  top: 50px;
-  transform: translateX(-50%);
-  left: 50%;
-  width: 500px;
-  background: #fff;
-  z-index: 200;
-  padding: 1.5rem;
-  border-radius: var(--radius);
 }
