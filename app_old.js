@@ -46,7 +46,7 @@ function renderHabbitsProgress() {
   progressValue.forEach((item, index) => {
     item.style.width = habbits[index].progress * 4.7619047619 + "%"
 
-    if(habbits[index].progress === 0) {
+    if (habbits[index].progress === 0) {
       return
     } else {
       item.textContent = habbits[index].progress + ' d'
@@ -79,7 +79,7 @@ function clickHabbitCard(event) {
   const itemId = findId(item)
   const habbit = habbitsCards.children[itemId]
 
-  if(!habbit) return
+  if (!habbit) return
 
   if (habbit.children[0].className === 'top-card') {
     habbit.children[0].classList.add('open')
@@ -88,7 +88,7 @@ function clickHabbitCard(event) {
     habbit.children[0].classList.remove('open')
     habbit.style.height = '120px'
   }
-  
+
 
   // openModal(toModal(habbit), habbit.title)
   // renderModalHabbitProgress(itemId)
@@ -137,13 +137,13 @@ function closeModal(event) {
 
   backdrop.style.display = 'none'
   // habbitModal.classList.remove('open')
-  editModal.classList.remove('open') 
+  editModal.classList.remove('open')
 }
 
 function addHabbit(event) {
   event.preventDefault()
 
-  const {title, type} = event.target
+  const { title, type } = event.target
 
   if (isInvalid(title)) {
     if (!title.value) title.classList.add('invalid')
@@ -215,11 +215,11 @@ function deleteHabbit(index) {
   renderHtmlList()
 }
 
-function saveLocal () {
+function saveLocal() {
   localStorage.setItem(LS_KEY, JSON.stringify(habbits))
 }
 
-function getLocal () {
+function getLocal() {
   const raw = localStorage.getItem(LS_KEY)
   return raw ? JSON.parse(raw) : []
 }
@@ -246,7 +246,7 @@ function openEditModal(index) {
 
   formForEdit[0].value = habbits[index].title
   formForEdit[1].value = habbits[index].type
-  
+
   editModal.classList.add('open')
   backdrop.style.display = 'block'
 }
@@ -262,7 +262,7 @@ delBtn.addEventListener('click', () => {
 function editHabbit(event) {
   event.preventDefault()
 
-  const {title, type} = event.target
+  const { title, type } = event.target
 
   if (isInvalid(title)) {
     if (!title.value) title.classList.add('invalid')
@@ -285,11 +285,11 @@ function editHabbit(event) {
 }
 
 const randomHabbits = [
-  {title: 'Плавать в ванной', type: 'Sport'},
-  {title: 'Закаляться в морозилке', type: 'Health'},
-  {title: 'Говорить задом наперед', type: 'Skills'},
-  {title: 'Разводить мух', type: 'Hobby'},
-  {title: 'Наладить связь с космосом', type: 'Mind'},
+  { title: 'Плавать в ванной', type: 'Sport' },
+  { title: 'Закаляться в морозилке', type: 'Health' },
+  { title: 'Говорить задом наперед', type: 'Skills' },
+  { title: 'Разводить мух', type: 'Hobby' },
+  { title: 'Наладить связь с космосом', type: 'Mind' },
 ]
 
 function randromHabbit() {

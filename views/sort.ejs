@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="/styles/main.css" />
-    <title>You can!</title>
-  </head>
+  <%- include('./partials/head.ejs') %>
   <body>
     <div class="container">
       <div class="header">
@@ -18,7 +9,7 @@
       <div class="main">
         <div class="left">
           <h2 class="heading form">Add habbit</h2>
-          <form class="form-for-habbit" id="form-for-habbit">
+          <form class="form-for-habbit" id="form-for-habbit" method="post" action="/">
             <div class="input-area">
               <input type="text" class="form-control" id="title" name="title" placeholder="Input title">
               <select class="btn type" name="type" id="type">
@@ -29,7 +20,7 @@
                 <option value="Mind">Mind</option>
               </select>
             </div>
-            <button type="button" class="btn random">Random</button>
+            <button type="button" class="btn random" id="btn-random">Random</button>
             <button type="submit" class="btn create">Create</button>
           </form>
         </div>
@@ -47,15 +38,34 @@
             </div>
           </div>
 
-          <div class="habbits-cards" id="habbits-cards"></div>
+          <div class="habbits-cards" id="habbits-cards">
+            <% if (habbits.length) { %>
+              <% habbits.forEach(({ title, type, progress, id, createdAt}) => { %>
+                <div class="habbit-card" id="habbit-card" data-id="<%= id %>">
+                  <div class="top-card">
+                      <div class="habbit-type"><%= type %></div>
+                      <div class="description"><%= title %></div>
+                      <button class="btn edit" id="btn-edit">Edit</button>
+                      <div class="post-day"><strong>Create date: </strong><%= createdAt.toLocaleString() %></div>
+                  </div>
+                  <div class="bottom-card">
+                    <button class="btn done <%= progress>= 21 ? 'hide' : '' %>" id="btn-done">Done</button>
+                    <div class="progress-bar">
+                      <div class="progress-value" data-progress="<%= progress %>"></div>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <p class="empty">You have not tracked habbit, add</p>
+          <% } %>
+          </div>
         </div>
       </div>
 
-      <div class="habbit-modal" id="habbit-modal"></div>
-
       <div class="habbit-modal edit " id="habbit-modal-edit">
         <h2>Edit habbit:</h2>
-        <form class="form" id="form-for-edit">
+        <form class="form" method="post" id="form-for-edit">
           <div class="input-area">
             <input type="text" class="form-control" id="title" name="title">
             <select class="btn type" name="type" id="type">
@@ -66,7 +76,7 @@
               <option value="Mind">Mind</option>
             </select>
           </div>
-          <button type="submit" class="btn edit">Edit</button>
+          <button type="submit" class="btn edit" id="btn-edit-modal">Save</button>
           <button type="button" class="btn edit" id="btn-edit-del">Delete</button>
         </form>
       </div>
@@ -74,6 +84,6 @@
       <div class="modal-backdrop" id="modal-backdrop"></div>
 
     </div>
-    <script src="app.js"></script>  
+    <script src="scripts/app.js"></script>  
   </body>
 </html>

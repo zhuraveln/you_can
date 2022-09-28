@@ -261,19 +261,6 @@ body, html {
   display: none;
 }
 
-/* .habbit-modal.open {
-  display: block;
-  position: fixed;
-  top: 50px;
-  transform: translateX(-50%);
-  left: 50%;
-  width: 500px;
-  background: #fff;
-  z-index: 200;
-  padding: 1.5rem;
-  border-radius: var(--radius);
-} */
-
 .habbit-modal h2 {
   margin-bottom: 0.3rem;
 }
