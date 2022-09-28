@@ -13,9 +13,9 @@ const router = express.Router()
 
 router.get('/', getHabbits)
 
-router.get('/:type', getHabbits)
-
 router.get('/random', getRandomTrashHabbit)
+
+router.get('/:type', getHabbits)
 
 router.get('/edit/:id', getEditHabbit)
 
