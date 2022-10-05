@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+:root {
+  --border: 1px solid rgba(151, 158, 162, 0.3);
+  --radius: 6px;
+  --border-color: rgba(151, 158, 162, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.body, html {
+  font-family: 'Roboto', sans-serif;
+  background: #dedede77;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  height: 7%;
+  align-items: center;
+  background: rgb(109, 189, 255);
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  margin-left: 0.5rem;
+}
+
+.main {
+  display: flex;
+  align-self: center;
+  height: 90%;
+  width: 65%;
+}
+
+.left {
+  width: 35%;
+}
+
+.form-for-habbit {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+}
+
+.input-area {
+  display: flex;
+  margin-bottom: 0.2rem;
+}
+
+.form-control {
+  width: 100%;
+  border: var(--border);
+  padding: 0.75rem;
+  margin-right: 0.1rem;
+  border-radius: var(--radius);
+  background: #f7f7f7;
+  font-family: inherit;
+  transition: 0.22s background;
+  outline: none;
+}
+
+.form-search {
+  border: var(--border);
+  padding: 0.4rem;
+  margin-right: 0.7rem;
+  border-radius: var(--radius);
+  background: #f7f7f7;
+  font-family: inherit;
+  /* transition: 0.22s background; */
+  outline: none;
+}
+
+.form-control:focus {
+  background: #fff;
+}
+
+.form-control.invalid {
+  animation: validate 2s;
+}
+
+@keyframes validate {
+  0% {
+    border: 1px solid var(--red);
+  }
+
+  50% {
+    border: 1px solid var(--red);
+  }
+
+  100% {
+    border: var(--border);
+  }
+}
+
+.right {
+  width: 65%;
+  height: 100vh;
+}
+
+.heading.card {
+  display: flex;
+  justify-content: space-between;
+  height: 2.3rem;
+  padding: 0;
+}
+
+.heading.form {
+  height: 2.3rem;
+  margin-left: 0.5rem;
+}
+
+.habbits-cards {
+  height: 85%;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.habbit-card {
+  height: 120px;
+  margin-bottom: 1rem;
+  margin-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #fff;
+  transition: 0.4s box-shadow;
+  background: #fff;
+  border-radius: var(--radius);
+  border: var(--border);
+  transition: 0.5s height;
+}
+
+.habbit-card.open {
+  height: 155px;
+}
+
+.habbit-card.open > .post-day {
+  display: block;
+}
+
+.post-day {
+  display: none;
+  color: grey;
+
+}
+
+.habbit-card:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.22);
+}
+
+.top-card {
+  display: flex;
+  flex-wrap: wrap;
+  height: 60%;
+}
+
+.bottom-card {
+  display: flex;
+  height: 33px;
+}
+
+.progress-bar {
+  display: flex;
+  position: relative;
+  flex: 10;
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.progress-value {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: grey;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius);
+  transition: 0.5s width;
+}
+
+.progress-bar.modal {
+  width: 100%;
+}
+
+.habbit-type {
+  color: grey;
+  width: 10.5%;
+}
+
+.description {
+  width: 74%;
+  overflow: scroll;
+}
+
+.btn {
+  font-family: inherit;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  border-radius: var(--radius);
+  transition: 0.3s background;
+  justify-content: center;
+  text-align: center;
+}
+
+.btn.create {
+  padding: 1rem 0;
+}
+
+.btn.random {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+
+.btn.edit {
+  width: 15%;
+  height: 33px;
+  margin-right: 0.15rem;
+}
+
+.btn.done {
+  height: 33px;
+  flex: 1;
+  margin-right: 0.2rem;
+}
+
+.btn.delete {
+  width: 13%;
+  height: 33px;
+  margin-right: 0.1rem;
+}
+
+.btn.type {
+  padding: 0.4rem 0.3rem;
+}
+
+.btn.sort {
+  padding: 0.4rem;
+  margin: 0 0.5rem 0.3rem 0;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:hover {
+  background: #fff;
+  cursor: pointer;
+}
+
+.btn.hide {
+  display: none;
+}
+
+.empty {
+  margin-bottom: 2rem;
+  color: grey;
+}
+
+.habbit-modal.edit {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.habbit-modal.edit.open {
+  display: block;
+}
+
+.habbit-modal-content {
+  display: block;
+  position: fixed;
+  top: 125px;
+  transform: translateX(-50%);
+  left: 50%;
+  width: 500px;
+  background: #fff;
+  z-index: 200;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+}
+
+.habbit-modal-content h2 {
+  margin-bottom: 0.3rem;
+}
