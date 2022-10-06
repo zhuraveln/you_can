@@ -34,7 +34,7 @@ const HabbitCard = ({ body, remove, edit, dayDone }) => {
           }}
         >Edit
         </button>
-        <div className="post-day"><strong>Create date: {dateAd}</strong></div>
+        <div className={!openCard ? "post-day" : "post-day active"}><strong>Create date:</strong> {dateAd}</div>
       </div>
       <div className="bottom-card">
         <button

@@ -146,14 +146,13 @@
   height: 155px;
 }
 
-.habbit-card.open > .post-day {
-  display: block;
-}
-
 .post-day {
   display: none;
   color: grey;
+}
 
+.post-day.active {
+  display: block;
 }
 
 .habbit-card:hover {

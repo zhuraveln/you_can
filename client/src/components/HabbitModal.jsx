@@ -19,7 +19,13 @@ const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
   }
 
   return (
-    <div className={rootClasses} onClick={() => setVisible(false)}>
+    <div
+      className={rootClasses}
+      onClick={(e) => {
+        e.stopPropagation()
+        setVisible(false)
+      }}
+    >
       <div className="habbit-modal-content" onClick={e => e.stopPropagation()}>
         <h2>Edit habbit:</h2>
         <form className="form" method="post">
