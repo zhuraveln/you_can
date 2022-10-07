@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { trashHabbits } from '../trashHabbits';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const HabbitForm = ({ create }) => {
   const [habbit, setHabbit] = useState({ title: '', type: 'Health' })
+  const [trashHabbits, setTrashHabbits] = useState([])
 
   const addNewHabbit = (e) => {
     e.preventDefault()
@@ -19,15 +20,22 @@ const HabbitForm = ({ create }) => {
     setHabbit({ title: '', type: habbit.type })
   }
 
+  useEffect(() => {
+    fetchTrashHabbit()
+  }, [])
+
+  const fetchTrashHabbit = async () => {
+    const response = await axios.get('https://trash-habbits-maker.herokuapp.com/api')
+    setTrashHabbits(response.data)
+  }
+
   const randomTrashHabbit = () => {
     const rth = random(trashHabbits)
-
     setHabbit({ title: rth.title, type: rth.type })
   }
 
   function random(arr) {
     const randomNumber = Math.floor(Math.random() * arr.length)
-
     return arr[randomNumber]
   }
 

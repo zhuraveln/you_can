@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import HabbitsFilter from './components/HabbitsFilter';
 import HabbitForm from './components/HabbitForm';
 import HabbitsList from './components/HabbitsList';
 import NavBar from './components/NavBar';
 import './styles/App.css'
+import { useHabbits } from './hooks/useHabbits';
 
 function App() {
   const [habbits, setHabbits] = useState([
@@ -13,9 +14,14 @@ function App() {
   ])
 
   const [filter, setFilter] = useState({ sort: 'dateAd', query: '' })
+  const sortedAndSearchedHabbits = useHabbits(habbits, filter.sort, filter.query)
 
   const createHabbit = (habbit) => {
     setHabbits([...habbits, habbit])
+  }
+
+  const removeHabbit = (habbit) => {
+    setHabbits(habbits.filter(h => h.id !== habbit.id))
   }
 
   const editHabbit = ({ id, newTitle, newType }) => {
@@ -28,10 +34,6 @@ function App() {
     }))
   }
 
-  const removeHabbit = (habbit) => {
-    setHabbits(habbits.filter(h => h.id !== habbit.id))
-  }
-
   const dayDone = ({ id, progress }) => {
     setHabbits([...habbits].map(item => {
       if (item.id === id) {
@@ -40,18 +42,6 @@ function App() {
       return item
     }))
   }
-
-  const sortedHabbits = useMemo(() => {
-    if (filter.sort === 'progress') {
-      return [...habbits].sort((a, b) => b.progress - a.progress)
-    } else if (filter.sort === 'type' || 'dateAd') {
-      return [...habbits].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-    }
-  }, [filter.sort, habbits])
-
-  const sortedAndSearchedHabbits = useMemo(() => {
-    return sortedHabbits.filter(habbit => habbit.title.toLowerCase().includes(filter.query.toLowerCase()))
-  }, [filter.query, sortedHabbits])
 
   return (
     <div className="container">

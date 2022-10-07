@@ -1,5 +1,6 @@
 import React from 'react'
 import HabbitCard from './HabbitCard'
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 const HabbitList = ({ habbits, remove, edit, dayDone }) => {
 
@@ -13,15 +14,23 @@ const HabbitList = ({ habbits, remove, edit, dayDone }) => {
 
   return (
     <div className="habbits-cards">
-      {habbits.map(habbit =>
-        <HabbitCard
-          body={habbit}
-          key={habbit.id}
-          remove={remove}
-          edit={edit}
-          dayDone={dayDone}
-        />
-      )}
+      <TransitionGroup>
+        {habbits.map(habbit =>
+          <CSSTransition
+            key={habbit.id}
+            timeout={500}
+            classNames="habbitItem"
+          >
+            <HabbitCard
+              body={habbit}
+              remove={remove}
+              edit={edit}
+              dayDone={dayDone}
+            />
+          </CSSTransition>
+
+        )}
+      </TransitionGroup>
     </div>
   )
 }

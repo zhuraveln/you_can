@@ -302,3 +302,18 @@
 .habbit-modal-content h2 {
   margin-bottom: 0.3rem;
 }
+
+.habbitItem-enter {
+  opacity: 0;
+}
+.habbitItem-enter-active {
+  opacity: 1;
+  transition: opacity 700ms linear;
+}
+.habbitItem-exit {
+  opacity: 1;
+}
+.habbitItem-exit-active {
+  opacity: 0;
+  transition: opacity 700ms ease-in;
+}
