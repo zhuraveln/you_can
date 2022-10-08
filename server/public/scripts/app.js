@@ -19,7 +19,8 @@ const formForEdit = document.querySelector('#form-for-edit')
 btnRandom.addEventListener('click', () => {
   fetch('/random')
     .then(res => res.json())
-    .then(data => randromHabbit(data))
+    .then(data => randromHabbit(dasta))
+
 })
 
 // btnRandom.addEventListener('click', () => {

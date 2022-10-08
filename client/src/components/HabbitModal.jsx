@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
 
-  const { title, type, id } = body
+  const { title, type, _id } = body
 
   let rootClasses = 'habbit-modal edit'
 
@@ -12,9 +13,12 @@ const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
 
   const [data, setData] = useState({ newTitle: title, newType: type })
 
-  const newHabbitData = (e) => {
+  const newHabbitData = async (e) => {
     e.preventDefault()
-    edit({ id: id, newTitle: data.newTitle, newType: data.newType })
+
+    await axios.put(`http://localhost:3001/edit/${_id}`, { title: data.newTitle, type: data.newType })
+
+    edit({ id: _id, newTitle: data.newTitle, newType: data.newType })
     setVisible(false)
   }
 

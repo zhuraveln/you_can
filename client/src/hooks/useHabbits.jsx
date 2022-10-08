@@ -1,10 +1,12 @@
 import { useMemo } from "react"
 
 export const useSortedHabbits = (habbits, sort) => {
+  // console.log(habbits)
+  // console.log(sort)
   const sortedHabbits = useMemo(() => {
     if (sort === 'progress') {
       return [...habbits].sort((a, b) => b.progress - a.progress)
-    } else if (sort === 'type' || 'dateAd') {
+    } else if (sort === 'type' || 'createdAt') {
       return [...habbits].sort((a, b) => a[sort].localeCompare(b[sort]))
     }
   }, [sort, habbits])

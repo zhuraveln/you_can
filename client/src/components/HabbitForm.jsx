@@ -5,17 +5,12 @@ const HabbitForm = ({ create }) => {
   const [habbit, setHabbit] = useState({ title: '', type: 'Health' })
   const [trashHabbits, setTrashHabbits] = useState([])
 
-  const addNewHabbit = (e) => {
+  const addNewHabbit = async (e) => {
     e.preventDefault()
 
-    const newHabbit = {
-      ...habbit,
-      id: Date.now(),
-      progress: 0,
-      dateAd: Date.now().toLocaleString(),
-    }
+    const { data } = await axios.post('http://localhost:3001/', habbit)
 
-    create(newHabbit)
+    create(data)
 
     setHabbit({ title: '', type: habbit.type })
   }
@@ -24,8 +19,13 @@ const HabbitForm = ({ create }) => {
     fetchTrashHabbit()
   }, [])
 
+  // async function fetchTrashHabbit() {
+  //   const response = await axios.get('https://trash-habbits-maker.herokuapp.com/api')
+  //   return response.data
+  // }
+
   const fetchTrashHabbit = async () => {
-    const response = await axios.get('https://trash-habbits-maker.herokuapp.com/api')
+    const response = await axios.get('http://localhost:3001/random')
     setTrashHabbits(response.data)
   }
 

@@ -1,18 +1,22 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import HabbitModal from './HabbitModal'
 
 const HabbitCard = ({ body, remove, edit, dayDone }) => {
 
-  const { id, title, type, progress, dateAd } = body
+  const { _id, title, type, progress, createdAt } = body
 
   const [modal, setModal] = useState(false)
 
   const [habbitProgress, setHabbitProgress] = useState(progress)
 
-  const dayDoneHabbit = (e) => {
+  const dayDoneHabbit = async (e) => {
     e.stopPropagation()
+
+    await axios.put(`http://localhost:3001/done/${_id}`)
+
     setHabbitProgress(habbitProgress + 1)
-    dayDone({ id: id, progress: habbitProgress + 1 })
+    dayDone({ _id: _id, progress: habbitProgress + 1 })
   }
 
   const [openCard, setOpenCard] = useState(false)
@@ -34,7 +38,7 @@ const HabbitCard = ({ body, remove, edit, dayDone }) => {
           }}
         >Edit
         </button>
-        <div className={!openCard ? "post-day" : "post-day active"}><strong>Create date:</strong> {dateAd}</div>
+        <div className={!openCard ? "post-day" : "post-day active"}><strong>Create date:</strong> {createdAt}</div>
       </div>
       <div className="bottom-card">
         <button

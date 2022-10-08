@@ -5,6 +5,7 @@ const methodOverride = require('method-override')
 require('dotenv').config()
 const HabbitRoutes = require('./routes/habbits-routes')
 const createPath = require('./helpers/create-path')
+const cors = require('cors');
 
 const app = express()
 
@@ -26,6 +27,10 @@ app.use(express.urlencoded(({ express: false })))
 app.use(express.static('public'))
 
 app.use(methodOverride('_method'))
+
+app.use(cors())
+
+app.use(express.json())
 
 app.use(HabbitRoutes)
 

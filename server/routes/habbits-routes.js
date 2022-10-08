@@ -3,28 +3,29 @@ const {
   getHabbits,
   postHabbit,
   deleteHabbit,
-  getRandomTrashHabbit,
-  getEditHabbit,
+  getTrashHabbits,
   editHabbit,
   doneHabbit,
 } = require('../controllers/habbit-controller')
 
 const router = express.Router()
 
+// Get All Habbits from db
 router.get('/', getHabbits)
 
-router.get('/random', getRandomTrashHabbit)
+// Get All Trash Habbits from db
+router.get('/random', getTrashHabbits)
 
-router.get('/:type', getHabbits)
-
-router.get('/edit/:id', getEditHabbit)
-
+// Post Habbit to db
 router.post('/', postHabbit)
 
+// Delete Habbit in db
+router.delete('/:id', deleteHabbit)
+
+// Edit Habbit in db
 router.put('/edit/:id', editHabbit)
 
+// Day done Habbit in db
 router.put('/done/:id', doneHabbit)
-
-router.delete('/:id', deleteHabbit)
 
 module.exports = router

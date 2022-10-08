@@ -1,32 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HabbitsFilter from './components/HabbitsFilter';
 import HabbitForm from './components/HabbitForm';
 import HabbitsList from './components/HabbitsList';
 import NavBar from './components/NavBar';
 import './styles/App.css'
 import { useHabbits } from './hooks/useHabbits';
+import axios from 'axios';
+
 
 function App() {
-  const [habbits, setHabbits] = useState([
-    { id: '1', title: 'You will run today!', type: 'Sport', progress: 7, dateAd: '02.10.2022, 18:46:32' },
-    { id: '2', title: 'You will mass up!', type: 'Health', progress: 3, dateAd: '03.10.2022, 18:46:32' },
-    { id: '3', title: 'You will rest to night!', type: 'Mind', progress: 15, dateAd: '01.10.2022, 18:46:32' },
-  ])
+  const [habbits, setHabbits] = useState([])
 
-  const [filter, setFilter] = useState({ sort: 'dateAd', query: '' })
+  const [filter, setFilter] = useState({ sort: 'createdAt', query: '' })
   const sortedAndSearchedHabbits = useHabbits(habbits, filter.sort, filter.query)
+
+  useEffect(() => {
+    fetchHabbit()
+  }, [])
+
+  const fetchHabbit = async () => {
+    const response = await axios.get('http://localhost:3001/')
+    setHabbits(response.data)
+  }
 
   const createHabbit = (habbit) => {
     setHabbits([...habbits, habbit])
   }
 
   const removeHabbit = (habbit) => {
-    setHabbits(habbits.filter(h => h.id !== habbit.id))
+    axios.delete(`http://localhost:3001/${habbit._id}`)
+    setHabbits(habbits.filter(h => h._id !== habbit._id))
   }
 
-  const editHabbit = ({ id, newTitle, newType }) => {
+  const editHabbit = ({ _id, newTitle, newType }) => {
     setHabbits([...habbits].map(item => {
-      if (item.id === id) {
+      if (item.id === _id) {
         item.title = newTitle
         item.type = newType
       }
@@ -34,9 +42,9 @@ function App() {
     }))
   }
 
-  const dayDone = ({ id, progress }) => {
+  const dayDone = ({ _id, progress }) => {
     setHabbits([...habbits].map(item => {
-      if (item.id === id) {
+      if (item._id === _id) {
         item.progress = progress
       }
       return item

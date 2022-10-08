@@ -17,7 +17,7 @@ const HabbitList = ({ habbits, remove, edit, dayDone }) => {
       <TransitionGroup>
         {habbits.map(habbit =>
           <CSSTransition
-            key={habbit.id}
+            key={habbit._id}
             timeout={500}
             classNames="habbitItem"
           >
