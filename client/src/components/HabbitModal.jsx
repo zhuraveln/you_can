@@ -18,7 +18,7 @@ const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
 
     await axios.put(`${process.env.REACT_APP_API_URL}edit/${_id}`, { title: data.newTitle, type: data.newType })
 
-    edit({ id: _id, newTitle: data.newTitle, newType: data.newType })
+    edit({ _id: _id, newTitle: data.newTitle, newType: data.newType })
     setVisible(false)
   }
 

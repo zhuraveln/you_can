@@ -34,7 +34,7 @@ function App() {
 
   const editHabbit = ({ _id, newTitle, newType }) => {
     setHabbits([...habbits].map(item => {
-      if (item.id === _id) {
+      if (item._id === _id) {
         item.title = newTitle
         item.type = newType
       }
