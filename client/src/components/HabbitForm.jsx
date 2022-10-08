@@ -8,7 +8,7 @@ const HabbitForm = ({ create }) => {
   const addNewHabbit = async (e) => {
     e.preventDefault()
 
-    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}random`, habbit)
+    const { data } = await axios.post(process.env.REACT_APP_API_URL, habbit)
 
     create(data)
 
@@ -25,7 +25,7 @@ const HabbitForm = ({ create }) => {
   // }
 
   const fetchTrashHabbit = async () => {
-    const response = await axios.get(process.env.REACT_APP_API_URL)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}random`)
     setTrashHabbits(response.data)
   }
 
