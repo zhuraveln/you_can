@@ -8,7 +8,7 @@ const HabbitForm = ({ create }) => {
   const addNewHabbit = async (e) => {
     e.preventDefault()
 
-    const { data } = await axios.post(process.env.REACT_APP_API_URL, habbit)
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}random`, habbit)
 
     create(data)
 
