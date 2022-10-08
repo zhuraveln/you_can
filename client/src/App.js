@@ -19,7 +19,7 @@ function App() {
   }, [])
 
   const fetchHabbit = async () => {
-    const response = await axios.get('http://localhost:3001/')
+    const response = await axios.get('process.env.REACT_APP_API_URL')
     setHabbits(response.data)
   }
 
@@ -28,7 +28,7 @@ function App() {
   }
 
   const removeHabbit = (habbit) => {
-    axios.delete(`http://localhost:3001/${habbit._id}`)
+    axios.delete(`process.env.REACT_APP_API_URL${habbit._id}`)
     setHabbits(habbits.filter(h => h._id !== habbit._id))
   }
 
