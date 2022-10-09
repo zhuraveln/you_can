@@ -7,7 +7,7 @@ const HabbitList = ({ habbits, remove, edit, dayDone }) => {
   if (!habbits.length) {
     return (
       <div>
-        <h2>Habbits not found</h2>
+        <h2 style={{ textAlign: 'center', color: 'grey', marginTop: '1rem' }}>Habbits not found</h2>
       </div>
     )
   }
