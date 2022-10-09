@@ -10,10 +10,10 @@ const HabbitCard = ({ body, remove, edit, dayDone }) => {
 
   const [habbitProgress, setHabbitProgress] = useState(progress)
 
-  const dayDoneHabbit = async (e) => {
+  const dayDoneHabbit = (e) => {
     e.stopPropagation()
 
-    await axios.put(`${process.env.REACT_APP_API_URL}done/${_id}`)
+    axios.put(`${process.env.REACT_APP_API_URL}done/${_id}`)
 
     setHabbitProgress(habbitProgress + 1)
     dayDone({ _id: _id, progress: habbitProgress + 1 })
