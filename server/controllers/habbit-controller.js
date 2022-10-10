@@ -1,6 +1,5 @@
 const Habbit = require('../models/habbit')
 const TrashHabbit = require('../models/trash-habbit')
-const createPath = require('../helpers/create-path')
 
 const handlError = (res, error) => {
   console.log(error)
