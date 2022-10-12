@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose from 'mongoose'
 
-const trashHabbitSchema = new Schema({
+const trashHabbitSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -9,9 +8,12 @@ const trashHabbitSchema = new Schema({
   type: {
     type: String,
     required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, { timestamps: true })
 
-const TrashHabbit = mongoose.model('trashhabbits', trashHabbitSchema)
-
-module.exports = TrashHabbit
+export default mongoose.model('trashhabbits', trashHabbitSchema)

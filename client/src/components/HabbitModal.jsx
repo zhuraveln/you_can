@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import HabbitsService from '../API/HabbitsService'
 
 const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
 
@@ -16,7 +16,7 @@ const HabbitModal = ({ visible, setVisible, body, remove, edit }) => {
   const newHabbitData = async (e) => {
     e.preventDefault()
 
-    await axios.put(`${process.env.REACT_APP_API_URL}edit/${_id}`, { title: data.newTitle, type: data.newType })
+    await HabbitsService.editHabbit(_id, data)
 
     edit({ _id: _id, newTitle: data.newTitle, newType: data.newType })
     setVisible(false)

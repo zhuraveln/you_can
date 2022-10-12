@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useState } from 'react'
+import HabbitsService from '../API/HabbitsService'
 import HabbitModal from './HabbitModal'
 
 const HabbitCard = ({ body, remove, edit, dayDone }) => {
@@ -10,10 +10,10 @@ const HabbitCard = ({ body, remove, edit, dayDone }) => {
 
   const [habbitProgress, setHabbitProgress] = useState(progress)
 
-  const dayDoneHabbit = (e) => {
+  const dayDoneHabbit = async (e) => {
     e.stopPropagation()
 
-    axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/'}done/${_id}`)
+    await HabbitsService.dayDoneHabbit(_id)
 
     setHabbitProgress(habbitProgress + 1)
     dayDone({ _id: _id, progress: habbitProgress + 1 })

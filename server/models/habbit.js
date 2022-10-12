@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose from 'mongoose'
 
-const habbitSchema = new Schema({
+const habbitSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -14,8 +13,11 @@ const habbitSchema = new Schema({
     type: Number,
     default: 0,
   },
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true
+  // }
 }, { timestamps: true })
 
-const Habbit = mongoose.model('habbits', habbitSchema)
-
-module.exports = Habbit
+export default mongoose.model('habbits', habbitSchema)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import HabbitsService from '../API/HabbitsService';
 
 const HabbitForm = ({ create }) => {
   const [habbit, setHabbit] = useState({ title: '', type: 'Health' })
@@ -8,9 +8,9 @@ const HabbitForm = ({ create }) => {
   const addNewHabbit = async (e) => {
     e.preventDefault()
 
-    const { data } = await axios.post(process.env.REACT_APP_API_URL || 'http://localhost:3001/', habbit)
+    const newHabbit = await HabbitsService.createHabbit(habbit)
 
-    create(data)
+    create(newHabbit)
 
     setHabbit({ title: '', type: habbit.type })
   }
@@ -25,8 +25,8 @@ const HabbitForm = ({ create }) => {
   // }
 
   const fetchTrashHabbit = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/'}random`)
-    setTrashHabbits(response.data)
+    const trashHabbit = await HabbitsService.randomTrashHabbit()
+    setTrashHabbits(trashHabbit)
   }
 
   const randomTrashHabbit = () => {

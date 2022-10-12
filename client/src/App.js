@@ -5,7 +5,7 @@ import HabbitsList from './components/HabbitsList';
 import NavBar from './components/NavBar';
 import './styles/App.css'
 import { useHabbits } from './hooks/useHabbits';
-import axios from 'axios';
+import HabbitsService from './API/HabbitsService';
 
 
 function App() {
@@ -13,24 +13,26 @@ function App() {
 
   const [filter, setFilter] = useState({ sort: 'createdAt', query: '' })
   const sortedAndSearchedHabbits = useHabbits(habbits, filter.sort, filter.query)
+  const [isHabbisLoading, setIsHabbisLoading] = useState(false)
 
   useEffect(() => {
     fetchHabbit()
   }, [])
 
   const fetchHabbit = async () => {
-    const response = await axios.get(
-      process.env.REACT_APP_API_URL || 'http://localhost:3001/'
-    )
-    setHabbits(response.data)
+    setIsHabbisLoading(true)
+    const habbits = await HabbitsService.getAllHabbits()
+    setHabbits(habbits)
+    setIsHabbisLoading(false)
   }
 
   const createHabbit = (habbit) => {
     setHabbits([...habbits, habbit])
   }
 
-  const removeHabbit = (habbit) => {
-    axios.delete(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/'}${habbit._id}`)
+  const removeHabbit = async (habbit) => {
+    console.log(habbit._id)
+    await HabbitsService.deleteHabbit(habbit._id)
     setHabbits(habbits.filter(h => h._id !== habbit._id))
   }
 
@@ -65,12 +67,15 @@ function App() {
             filter={filter}
             setFilter={setFilter}
           />
-          <HabbitsList
-            habbits={sortedAndSearchedHabbits}
-            remove={removeHabbit}
-            edit={editHabbit}
-            dayDone={dayDone}
-          />
+          {isHabbisLoading
+            ? <h2 style={{ textAlign: 'center', color: 'grey', marginTop: '1rem' }}>Loading...</h2>
+            : <HabbitsList
+              habbits={sortedAndSearchedHabbits}
+              remove={removeHabbit}
+              edit={editHabbit}
+              dayDone={dayDone}
+            />
+          }
         </div>
       </div>
     </div>
