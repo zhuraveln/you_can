@@ -31,7 +31,7 @@ function App() {
   }
 
   const removeHabbit = async (habbit) => {
-    console.log(habbit._id)
+    console.log(habbit)
     await HabbitsService.deleteHabbit(habbit._id)
     setHabbits(habbits.filter(h => h._id !== habbit._id))
   }
