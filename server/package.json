@@ -13,10 +13,6 @@
   },
   "author": "Zhuravel Nikita",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zhuraveln/you_can/issues"
-  },
-  "homepage": "https://github.com/zhuraveln/you_can#readme",
   "devDependencies": {
     "nodemon": "^2.0.20"
   },
